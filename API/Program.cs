@@ -1,11 +1,5 @@
-using API.Data;
 using API.Extensions;
-using API.interfaces;
-using API.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,15 +14,18 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-
+app.UseMiddleware<ExceptionMiddleware>();
 
 
 if (app.Environment.IsDevelopment())
 {
+
 	app.UseSwagger();
 	
 	app.UseSwaggerUI();
 }
+
+
 
 app.UseHttpsRedirection();
 
