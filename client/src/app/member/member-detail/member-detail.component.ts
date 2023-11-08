@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Member} from "../../_model/member.model";
-import {MembersService} from "../../_services/members.service";
+import {MemberService} from "../../_services/member.service";
 import {ActivatedRoute} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {TabsModule} from "ngx-bootstrap/tabs";
@@ -16,7 +16,7 @@ import {GalleryItem, GalleryModule, ImageItem} from "ng-gallery";
 export class MemberDetailComponent implements OnInit{
   member: Member | undefined;
   images: GalleryItem[] = [];
-  constructor(private memberService: MembersService, private route: ActivatedRoute) {
+  constructor(private memberService: MemberService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Member} from "../../_model/member.model";
-import {MembersService} from "../../_services/members.service";
+import {MemberService} from "../../_services/member.service";
 import {Observable} from "rxjs";
 
 @Component({
@@ -11,7 +11,7 @@ import {Observable} from "rxjs";
 export class MemberListComponent implements OnInit{
   members$: Observable<Member[]> | undefined;
 
-  constructor(private memberService: MembersService) {
+  constructor(private memberService: MemberService) {
   }
 
   ngOnInit() {

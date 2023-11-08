@@ -7,7 +7,7 @@ import {map, of} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class MembersService {
+export class MemberService {
   baseUrl = environment.apiUrl;
   members: Member[] = [];
   constructor(private http: HttpClient) { }
@@ -38,6 +38,10 @@ export class MembersService {
 
   setMainPhoto(photoId: number) {
     return this.http.put(this.baseUrl + "users/set-main-photo/" + photoId, {});
+  }
+
+  deletePhoto(photoId : number) {
+    return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
   }
 
 }
