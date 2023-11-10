@@ -2,6 +2,7 @@
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -26,9 +27,26 @@ namespace API.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+		public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
 		{
-			return Ok(await _userRepository.GetMembersAsync());
+
+			var currentUser = await _userRepository.GetUserByUserNameAsync(User.GetUserName());
+			if (currentUser == null) return NotFound();
+			userParams.CurrentUsername = currentUser.UserName;
+			if(string.IsNullOrEmpty(userParams.Gender))
+			{
+				userParams.Gender = currentUser.Gender == "male" ? "female" : "male";
+			}
+			if (userParams.minAge > userParams.maxAge)
+			{
+				return BadRequest("Minimun Age cannot exceed Maximum Age");
+			}
+			var users = await _userRepository.GetMembersAsync(userParams);
+			Response.AddPaginationHeader(new PaginationHeader(users.CurrentPage,
+																users.PageSize, 
+																users.TotalCount, 
+																users.TotalPage));
+			return Ok(users);
 			
 		}
 
