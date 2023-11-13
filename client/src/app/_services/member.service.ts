@@ -7,6 +7,8 @@ import {PaginatedResult} from "../_model/pagination.model";
 import {UserParam} from "../_model/userParam.model";
 import {AccountService} from "./account.service";
 import {User} from "../_model/user.model";
+import {UserLikeParam} from "../_model/userlikeParam.model";
+import {getPaginatedResult, getPaginationHeaders} from "./pagination-helper.service";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +22,7 @@ export class MemberService {
   memberCache = new Map();
   user: User | undefined;
   userParams: UserParam | undefined;
+  userLikeParams: UserLikeParam | undefined;
 
   constructor(private http: HttpClient, private accountService: AccountService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
@@ -29,7 +32,8 @@ export class MemberService {
           this.user = user;
         }
       }
-    })
+    });
+    this.userLikeParams = new UserLikeParam();
   }
 
   getUserParams() {
@@ -54,13 +58,13 @@ export class MemberService {
     //Return an observable with response value if it is contained in the cache
     //If it is not contained in the cache, it will send a request to the server
     if (response) return of(response);
-    let params = this.getPaginationHeaders(userParam.pageNumber, userParam.pageSize);
+    let params = getPaginationHeaders(userParam.pageNumber, userParam.pageSize);
     params = params.append('minAge', userParam.minAge);
     params = params.append('maxAge', userParam.maxAge);
     params = params.append('gender', userParam.gender);
     params = params.append('orderBy', userParam.orderBy);
     //Use map() method in this GET method in order to set a key-value pairs for our cache value
-    return this.getPaginatedResult<Member[]>(this.baseUrl + "users", params).pipe(
+    return getPaginatedResult<Member[]>(this.baseUrl + "users", params, this.http).pipe(
       map(response => {
         this.memberCache.set(Object.values(userParam).join('-'), response);
         return response;
@@ -94,30 +98,31 @@ export class MemberService {
     return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
   }
 
-  private getPaginatedResult<T>(url: string, params: HttpParams) {
-    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>;
-    return this.http.get<T>(url, {
-      observe: 'response',
-      params
-    }).pipe(
+  addLike(username: string) {
+    return this.http.post(this.baseUrl + "likes/" + username, {});
+  }
+
+  getLikes(userLikeParam: UserLikeParam) {
+    const response = this.memberCache.get(Object.values(userLikeParam).join('-'));
+    if (response) return of(response);
+    let params = getPaginationHeaders(userLikeParam.pageNumber, userLikeParam.pageSize);
+     params = params.append('predicate', userLikeParam.predicate);
+    return getPaginatedResult<Member[]>(this.baseUrl + 'likes', params, this.http).pipe(
       map(response => {
-        if (response.body) {
-          paginatedResult.result = response.body;
+        if (response.result) {
+          this.memberCache.set(Object.values(userLikeParam).join('-'), response);
         }
-        const pagination = response.headers.get('Pagination');
-        if (pagination) {
-          paginatedResult.pagination = JSON.parse(pagination);
-        }
-        return paginatedResult;
+        return response;
       })
     );
   }
 
-  private getPaginationHeaders(pageNumber: number, pageSize: number) {
-    let params = new HttpParams();
-    params = params.append("pageNumber", pageNumber);
-    params = params.append("pageSize", pageSize);
-    return params;
+  setUserLikeParam(userLikeParam: UserLikeParam) {
+    this.userLikeParams = userLikeParam;
+  }
+
+  getUserLikeParam() {
+    return this.userLikeParams;
   }
 
 }

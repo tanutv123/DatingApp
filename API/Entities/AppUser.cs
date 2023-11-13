@@ -35,10 +35,17 @@ namespace API.Entities
 
         public List<Photo> Photos { get; set; } = new();
 
+        //This method is configured in AutoMapperProfile
         //public int GetAge()
         //{
         //    return DateOfBirth.CalculateAge();
         //}
+
+        public List<UserLike> LikedByUsers { get; set; }
+        public List<UserLike> LikedUsers { get; set; }
+
+        public List<Message> MessagesSent{ get; set; }
+        public List<Message> MessagesReceived{ get; set; }
 
     }
 }
