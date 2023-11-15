@@ -4,6 +4,7 @@ import {MessageService} from "../../_services/message.service";
 import {CommonModule} from "@angular/common";
 import {TimeagoModule} from "ngx-timeago";
 import {FormsModule, NgForm} from "@angular/forms";
+import {take} from "rxjs";
 
 @Component({
   standalone: true,
@@ -14,10 +15,9 @@ import {FormsModule, NgForm} from "@angular/forms";
 })
 export class MemberMessagesComponent implements OnInit{
   @Input() username: string | undefined;
-  @Input() messages: Message[] = [];
   @ViewChild('messageForm') messageForm: NgForm | undefined;
   messageContent = '';
-  constructor(private messageService: MessageService) {
+  constructor(public messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -25,11 +25,8 @@ export class MemberMessagesComponent implements OnInit{
 
   sendMessage() {
     if (!this.username) return;
-    this.messageService.sendMessage(this.username, this.messageContent).subscribe({
-      next: message => {
-        this.messages.push(message);
-        this.messageForm?.reset();
-      }
+    this.messageService.sendMessage(this.username, this.messageContent).then(() => {
+      this.messageForm?.reset();
     });
   }
 }
