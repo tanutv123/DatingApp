@@ -61,6 +61,7 @@ namespace API.Controllers
             if (user == null) return Unauthorized("Invalid Username");
 			var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
 			if (!result) return Unauthorized("Invalid username or password");
+			if(user.IsRestricted) return BadRequest("Your account are restricted! Contact support team for further details");
 			return new UserDto
 			{
 				UserName = user.UserName,

@@ -30,7 +30,6 @@ export class UserManagementComponent implements OnInit{
     this.adminService.getUserWithRoles().subscribe({
       next: users => {
         this.users = users;
-        console.log(this.users);
       }
     })
   }

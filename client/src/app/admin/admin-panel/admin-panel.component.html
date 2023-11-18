@@ -11,5 +11,10 @@
         <app-photo-management></app-photo-management>
       </div>
     </tab>
+    <tab heading="Report management" *appHasRole="['Admin', 'Moderator']">
+      <div class="container">
+        <app-report-management></app-report-management>
+      </div>
+    </tab>
   </tabset>
 </div>

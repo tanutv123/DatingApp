@@ -1,0 +1,46 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 id="dialog-sizes-name1" class="modal-title pull-left">Report Details</h4>
+    <button type="button" class="btn-close close pull-right" (click)="bsModalRef.hide()" aria-label="Close">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="row">
+        <h4>Report Types:</h4>
+      </div>
+      <div class="row">
+        <ul style="list-style-type: none">
+          <li *ngFor="let reportType of userReport; let i = index">
+            {{i}} - {{reportType.typeName}}
+          </li>
+        </ul>
+      </div>
+      <div class="row">
+        <h4>Report content</h4>
+      </div>
+      <div class="row">
+        <p>{{content}}</p>
+      </div>
+      <div class="row">
+        <img src="{{reported.photoUrl}}"
+             alt="reported photo"
+             class="img-circle rounded-circle"
+             style="height: 50px; width: 50px; padding: 0">
+        <strong>{{reported.knownAs}}</strong>
+      </div>
+      <div class="row">
+        <div class="col-8">
+          <div class="alert alert-info pb-0" *ngIf="restrictedClicked">
+            <p><strong>Information: </strong>Restrict user success</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" (click)="restrictMember()">Restrict Member</button>
+    <button class="btn btn-info" (click)="bsModalRef.hide()">Close</button>
+  </div>
+</div>

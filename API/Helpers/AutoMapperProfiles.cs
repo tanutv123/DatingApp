@@ -24,6 +24,10 @@ namespace API.Helpers
                 .ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
 			CreateMap<DateTime?, DateTime?>()
 				.ConvertUsing(d => d.HasValue ? DateTime.SpecifyKind(d.Value, DateTimeKind.Utc) : null);
+            CreateMap<UserReport, UserReportDto>();
+			CreateMap<Report, ReportDto>()
+                .ForMember(dest => dest.TypeName,
+                opt => opt.MapFrom(src => src.ReportType.Name));
 		}
     }
 }

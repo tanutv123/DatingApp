@@ -24,6 +24,9 @@
           <strong>Member since: </strong>
           <p>{{member.created | date: 'longDate'}}</p>
         </div>
+        <div>
+          <button class="btn btn-danger" (click)="openReportModal()">Report</button>
+        </div>
         <div class="card-footer">
           <div class="btn-group d-flex">
             <button class="btn btn-primary">Like</button>

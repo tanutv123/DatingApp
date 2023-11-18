@@ -1,0 +1,8 @@
+<form #reportForm="ngForm" (ngSubmit)="reportSubmit()">
+  <h4 class="mt-2">Report content</h4>
+  <textarea class="form-control"
+            [froalaEditor]="options"
+            [(ngModel)]="report.content"
+            name="content"></textarea>
+  <button type="submit" class="btn btn-success mt-2">Submit</button>
+</form>

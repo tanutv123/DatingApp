@@ -1,0 +1,40 @@
+<div class="row">
+  <table class="table">
+    <thead>
+      <tr>
+        <th style="width: 50%">Type</th>
+        <th>Reporter</th>
+        <th>Reported</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let report of reports">
+        <td>
+          <p *ngFor="let reportType of report.reports; let i=index">
+            {{i}} - {{reportType.typeName}}
+          </p>
+        </td>
+        <td>
+          <div>
+            <img src="{{report.reporter.photoUrl}}"
+                  alt="reporter image"
+                 class="img-circle rounded-circle me-2"
+                 style="height: 50px; width: 50px">
+            <strong>{{report.reporter.knownAs}}</strong>
+          </div>
+        </td>
+        <td>
+          <div>
+            <img src="{{report.reportedUser.photoUrl}}"
+                 alt="reporter image"
+                 class="img-circle rounded-circle me-2"
+                 style="height: 50px; width: 50px">
+            <strong>{{report.reportedUser.knownAs}}</strong>
+          </div>
+        </td>
+        <td><button class="btn btn-info" (click)="openReportDetailsModal(report)">See details</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

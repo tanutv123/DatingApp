@@ -1,0 +1,27 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 id="dialog-sizes-name1" class="modal-title pull-left">Report {{member?.knownAs}}</h4>
+    <button type="button" class="btn-close close pull-right" (click)="bsModalRef.hide()" aria-label="Close">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <form #reportForm="ngForm" id="reportForm" (ngSubmit)="reportSubmit()">
+        <h4 class="mt-2">Report content</h4>
+        <textarea class="form-control"
+                  [froalaEditor]="options"
+                  [(ngModel)]="report.content"
+                  name="content"
+                  required></textarea>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success"
+            type="submit"
+            form="reportForm"
+            [disabled]="reportForm.invalid">Submit Report</button>
+    <button class="btn btn-info" (click)="bsModalRef.hide()">Close</button>
+  </div>
+</div>

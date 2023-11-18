@@ -25,6 +25,7 @@ namespace API.Entities
         public string City { get; set; }
 
         public string Country { get; set; }
+        public bool IsRestricted { get; set; }
 
         public List<Photo> Photos { get; set; } = new();
 
@@ -40,6 +41,8 @@ namespace API.Entities
         public List<Message> MessagesSent{ get; set; }
         public List<Message> MessagesReceived{ get; set; }
         public ICollection<AppUserRole> UserRoles{ get; set; }
+        public ICollection<UserReport> Reported { get; set; }
+        public ICollection<UserReport> IsReported { get; set; }
 
     }
 }

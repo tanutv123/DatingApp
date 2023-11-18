@@ -31,7 +31,12 @@ import { PhotoManagementComponent } from './admin/photo-management/photo-managem
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 import {RouteReuseStrategy} from "@angular/router";
 import {CustomRouteReuseStrategy} from "./_services/customRouteReuseStrategy";
-
+import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.component';
+import { ReportManagementComponent } from './admin/report-management/report-management.component';
+import {ReportDetailsComponent} from "./modals/report-details/report-details.component";
+import { MemberReportComponent } from './member/member-report/member-report.component';
+import 'froala-editor/js/plugins.pkgd.min.js';
+import { ReportModalComponent } from './modals/report-modal/report-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,7 +58,12 @@ import {CustomRouteReuseStrategy} from "./_services/customRouteReuseStrategy";
     HasRoleDirective,
     UserManagementComponent,
     PhotoManagementComponent,
-    RolesModalComponent
+    RolesModalComponent,
+    ConfirmDialogComponent,
+    ReportManagementComponent,
+    ReportDetailsComponent,
+    MemberReportComponent,
+    ReportModalComponent
   ],
   imports: [
     BrowserModule,

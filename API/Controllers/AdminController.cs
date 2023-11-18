@@ -1,4 +1,5 @@
 ﻿using API.Entities;
+using API.interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +10,13 @@ namespace API.Controllers
 	public class AdminController : BaseApiController
 	{
 		private readonly UserManager<AppUser> _userManager;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public AdminController(UserManager<AppUser> userManager)
+		public AdminController(UserManager<AppUser> userManager, 
+			IUnitOfWork unitOfWork)
         {
 			_userManager = userManager;
+			_unitOfWork = unitOfWork;
 		}
         [Authorize(Policy = "RequireAdminRole")]
 		[HttpGet("users-with-roles")]
@@ -59,6 +63,15 @@ namespace API.Controllers
 		public ActionResult GetPhotosForModeration() 
 		{
 			return Ok("Only admin and moderator can see this");
+		}
+
+		[Authorize(Policy = "ModeratorPhotoRole")]
+		[HttpPut("restrict-user/{username}")]
+		public async Task<ActionResult> RestrictUser(string username)
+		{
+			await _unitOfWork.UserRepository.RestrictUser(username);
+			if (await _unitOfWork.Complete()) return Ok();
+			return BadRequest("Problem in restricting user(maybe user is already restricted)");
 		}
 	}
 }

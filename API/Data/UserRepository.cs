@@ -4,6 +4,7 @@ using API.Helpers;
 using API.interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -60,15 +61,22 @@ namespace API.Data
 				.Include(p => p.Photos).SingleOrDefaultAsync(x => x.UserName == username);
 		}
 
+		public async Task<string> GetUserGender(string username)
+		{
+			return await _context.Users.Where(x => x.UserName == username).Select(x => x.Gender).FirstOrDefaultAsync();
+		}
+
 		public async Task<IEnumerable<AppUser>> GetUsersAsync()
 		{
 			return await _context.Users
 				.Include(p => p.Photos).ToListAsync();
 		}
 
-		public async Task<bool> SaveAllAsync()
+		public async Task RestrictUser(string username)
 		{
-			return await _context.SaveChangesAsync() > 0;
+			var user = await _context.Users
+				.SingleOrDefaultAsync(x => x.UserName == username);
+			user.IsRestricted = true;
 		}
 
 		public void Update(AppUser user)

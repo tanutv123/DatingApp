@@ -23,11 +23,35 @@ namespace API.Data
         public DbSet<Message> Messages { get; set; }
 		public DbSet<Group> Groups { get; set; }
 		public DbSet<Connection> Connections{ get; set; }
+		public DbSet<UserReport> UserReports { get; set; }
+		public DbSet<Report> Reports { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
+
+			modelBuilder.Entity<Report>().HasKey(x => new { x.ReportTypeId, x.UserReportId });
+			modelBuilder.Entity<UserReport>()
+				.HasMany(x => x.Reports)
+				.WithOne(x => x.UserReport)
+				.HasForeignKey(x => x.UserReportId)
+				.IsRequired();
+			modelBuilder.Entity<ReportType>()
+				.HasMany(x => x.Reports)
+				.WithOne(x => x.ReportType)
+				.HasForeignKey(x => x.ReportTypeId)
+				.IsRequired();
+			modelBuilder.Entity<AppUser>()
+				.HasMany(x => x.Reported)
+				.WithOne(x => x.Reporter)
+				.HasForeignKey(x => x.ReporterUserId)
+				.OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity<AppUser>()
+				.HasMany(x => x.IsReported)
+				.WithOne(x => x.ReportedUser)
+				.HasForeignKey(x => x.ReportedUserId)
+				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<AppUser>()
 				.HasMany(ur => ur.UserRoles)
