@@ -21,7 +21,7 @@
         <h4>Report content</h4>
       </div>
       <div class="row">
-        <p>{{content}}</p>
+        <div [innerHTML]="content"></div>
       </div>
       <div class="row">
         <img src="{{reported.photoUrl}}"

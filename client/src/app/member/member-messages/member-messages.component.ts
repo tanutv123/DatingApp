@@ -16,6 +16,7 @@ export class MemberMessagesComponent implements OnInit{
   @Input() username: string | undefined;
   @ViewChild('messageForm') messageForm: NgForm | undefined;
   messageContent = '';
+  loading = false;
   constructor(public messageService: MessageService) {
   }
 
@@ -23,9 +24,13 @@ export class MemberMessagesComponent implements OnInit{
   }
 
   sendMessage() {
+    this.loading = true;
     if (!this.username) return;
     this.messageService.sendMessage(this.username, this.messageContent).then(() => {
       this.messageForm?.reset();
+    }).finally(() => {
+      this.loading = false;
     });
   }
+
 }

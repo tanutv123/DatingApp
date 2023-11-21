@@ -7,6 +7,13 @@
   </div>
   <div class="modal-body">
     <div class="container">
+      <div class="form-check" *ngFor="let type of reportTypes">
+        <input type="checkbox"
+               class="form-check-input"
+               name="reportType"
+               (change)="updateCheckedReportTypes(type)" required>
+        <label>{{type.name}}</label>
+      </div>
       <form #reportForm="ngForm" id="reportForm" (ngSubmit)="reportSubmit()">
         <h4 class="mt-2">Report content</h4>
         <textarea class="form-control"
@@ -15,13 +22,20 @@
                   name="content"
                   required></textarea>
       </form>
+      <div class="row">
+        <div class="col-8">
+          <div class="alert alert-info pb-0" *ngIf="isAdded">
+            <p><strong>Information: </strong>Submit Report Success</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="modal-footer">
     <button class="btn btn-success"
             type="submit"
             form="reportForm"
-            [disabled]="reportForm.invalid">Submit Report</button>
+            [disabled]="reportForm.invalid || report.reportTypes.length <= 0">Submit Report</button>
     <button class="btn btn-info" (click)="bsModalRef.hide()">Close</button>
   </div>
 </div>

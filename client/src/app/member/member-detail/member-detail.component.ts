@@ -14,6 +14,9 @@ import {User} from "../../_model/user.model";
 import {take} from "rxjs";
 import {BsModalRef, BsModalService, ModalModule} from "ngx-bootstrap/modal";
 import {ReportModalComponent} from "../../modals/report-modal/report-modal.component";
+import {AdminService} from "../../_services/admin.service";
+import {ReportType} from "../../_model/reportType.model";
+import {ReportService} from "../../_services/report.service";
 
 @Component({
   selector: 'app-member-detail',
@@ -30,11 +33,13 @@ export class MemberDetailComponent implements OnInit, OnDestroy{
   messages: Message[] = [];
   user: User | undefined;
   bsModalRef: BsModalRef<ReportModalComponent> = new BsModalRef<ReportModalComponent>();
+  reportTypes: ReportType[] = [];
   constructor(private accountService: AccountService,
               private route: ActivatedRoute,
               private messageService: MessageService,
               public presenceService: PresenceService,
-              private modalService: BsModalService) {
+              private modalService: BsModalService,
+              private reportService: ReportService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
         if (user) this.user = user;
@@ -52,6 +57,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy{
       }
     });
     this.getImages();
+    this.loadReportTypes();
   }
 
   ngOnDestroy() {
@@ -74,14 +80,6 @@ export class MemberDetailComponent implements OnInit, OnDestroy{
 
   }
 
-  loadMessages() {
-    if (this.member) {
-      this.messageService.getMessageThread(this.member.userName).subscribe({
-        next: messages => this.messages = messages
-      })
-    }
-  }
-
   getImages() {
     if (!this.member) return;
     for (const photo of this.member.photos) {
@@ -93,10 +91,16 @@ export class MemberDetailComponent implements OnInit, OnDestroy{
     const config = {
       class: 'modal-dialog-centered modal-lg',
       initialState: {
-        member: this.member
+        member: this.member,
+        reportTypes: this.reportTypes
       }
     };
     this.bsModalRef = this.modalService.show(ReportModalComponent, config);
   }
 
+  loadReportTypes() {
+    this.reportService.getReportTypes().subscribe({
+      next: reportTypes => this.reportTypes = reportTypes
+    })
+  }
 }

@@ -135,6 +135,8 @@ namespace API.Controllers
 			return BadRequest("Problem in deleting photo");
 		}
 
+
+
 		
     }
 }

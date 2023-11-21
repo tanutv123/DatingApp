@@ -25,6 +25,7 @@ namespace API.Data
 		public DbSet<Connection> Connections{ get; set; }
 		public DbSet<UserReport> UserReports { get; set; }
 		public DbSet<Report> Reports { get; set; }
+		public DbSet<ReportType> ReportTypes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

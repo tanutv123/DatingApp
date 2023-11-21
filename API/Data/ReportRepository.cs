@@ -36,5 +36,21 @@ namespace API.Data
 				.Where(x => x.Reporter.Id == userId)
 				.ToListAsync();
 		}
+
+		public async Task<IEnumerable<ReportType>> GetReportTypes()
+		{
+			return await _context.ReportTypes.ToListAsync();
+		}
+
+		public async void AddReport(UserReport userReport, Report report)
+		{
+			 _context.UserReports.Add(userReport);
+			 _context.Reports.Add(report);
+		}
+
+		public async Task<int> GetTotalReports()
+		{
+			return await _context.UserReports.CountAsync();
+		}
 	}
 }

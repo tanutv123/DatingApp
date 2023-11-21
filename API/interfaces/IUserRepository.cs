@@ -14,6 +14,7 @@ namespace API.interfaces
 		Task<MemberDto> GetMemberAsync(string username);
 		Task<string> GetUserGender(string username);
 		Task RestrictUser(string username);
+		Task<int> GetUserId(string username);
 
 	}
 }

@@ -3,6 +3,7 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {User} from "../_model/user.model";
 import {Report} from "../_model/report.model";
+import {ReportType} from "../_model/reportType.model";
 
 @Injectable({
   providedIn: 'root'
@@ -28,4 +29,5 @@ export class AdminService {
   restrictUser(username: string) {
     return this.http.put(this.baseUrl + 'admin/restrict-user/' + username, {});
   }
+
 }
