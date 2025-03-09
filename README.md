@@ -6,6 +6,10 @@ DatingApp.
 
 This application allows people to find their other half.
 
+##Demo
+
+Website: http://ec2-54-153-171-0.ap-southeast-2.compute.amazonaws.com:8081/
+
 ## Features
 
 1. Sign in/Register using ASP.NET Identity
