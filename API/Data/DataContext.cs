@@ -68,8 +68,6 @@ namespace API.Data
 
 			modelBuilder.Entity<UserLike>()
 				.HasKey(k => new {k.SourceUserId, k.TargetUserId});
-
-
 			//If using MSSQL server, you need to specify one of the DeleteBehavior to NoAction(DeleteBehavior.NoAction) 
 			//Or else, it will cause an error
 			//Other db is oke with this approach
@@ -94,8 +92,6 @@ namespace API.Data
 				.HasOne(u => u.Sender)
 				.WithMany(u => u.MessagesSent)
 				.OnDelete(DeleteBehavior.Restrict);
-
-
 		}
 	}
 }

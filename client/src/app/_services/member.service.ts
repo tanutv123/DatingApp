@@ -65,7 +65,7 @@ export class MemberService {
     params = params.append('orderBy', userParam.orderBy);
     //Use map() method in this GET method in order to set a key-value pairs for our cache value
     return getPaginatedResult<Member[]>(this.baseUrl + "users", params, this.http).pipe(
-      map(response => {
+      map(response   => {
         this.memberCache.set(Object.values(userParam).join('-'), response);
         return response;
       })

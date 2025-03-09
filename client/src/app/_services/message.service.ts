@@ -36,7 +36,6 @@ export class MessageService {
       });
 
     this.messageHubConnection.on('ReceiveMessageThread', messages => {
-      console.log(messages);
       this.messageThreadSource.next(messages);
     });
 
