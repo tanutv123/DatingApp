@@ -17,5 +17,6 @@ namespace API.Controllers
 			var result = await _photoService.AddPhotoAsync(file);
 			return Ok(new {link = result.SecureUrl.ToString()});
 		}
+
 	}
 }

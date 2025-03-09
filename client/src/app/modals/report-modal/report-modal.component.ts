@@ -25,7 +25,7 @@ export class ReportModalComponent {
     imageUploadMethod: 'POST',
     imageUploadURL: this.baseUrl + 'images',
     events: {
-      'image.beforeUpload': (images: any) => {
+      'image.beforeUpload': () => {
         console.log('before upload');
       },
       'image.uploaded': () => {

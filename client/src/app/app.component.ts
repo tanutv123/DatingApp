@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AccountService} from "./_services/account.service";
 import {User} from "./_model/user.model";
+import {PresenceService} from "./_services/presence.service";
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ export class AppComponent implements OnInit{
 
   constructor(private accountService: AccountService) {
   }
+
 
   ngOnInit() {
     this.setCurrentUser();

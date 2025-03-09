@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit} from '@angular/core';
 import {Member} from "../../_model/member.model";
 import {FileUploader} from "ng2-file-upload";
 import {environment} from "../../../environments/environment";
