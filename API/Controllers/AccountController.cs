@@ -72,8 +72,28 @@ namespace API.Controllers
 			};
 
 		}
+        [HttpPost("loginAsTodd")]
+        public async Task<ActionResult<UserDto>> LoginAsTodd()
+        {
+            var user = await _userManager.Users
+                .Include(p => p.Photos)
+                .SingleOrDefaultAsync(x => x.UserName.Equals("todd"));
+            if (user == null) return Unauthorized("Invalid Username");
+            var result = await _userManager.CheckPasswordAsync(user, "Pa$$w0rd");
+            if (!result) return Unauthorized("Invalid username or password");
+            if (user.IsRestricted) return BadRequest("Your account are restricted! Contact support team for further details");
+            return new UserDto
+            {
+                UserName = user.UserName,
+                Token = await _tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.isMain)?.Url,
+                KnownAs = user.KnownAs,
+                Gender = user.Gender
+            };
 
-		private async Task<bool> UserExist(string username)
+        }
+
+        private async Task<bool> UserExist(string username)
 		{
 			return await _userManager.Users.AnyAsync(x => x.UserName.Equals(username.ToLower()));
 		}

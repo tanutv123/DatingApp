@@ -33,5 +33,11 @@ export class NavComponent implements OnInit{
     this.router.navigateByUrl('/');
   }
 
+  loginAsTodd() {
+    this.accountService.loginAsTodd().subscribe({
+      next: _ => this.router.navigateByUrl('/members'),
+    });
+  }
+
 
 }

@@ -26,6 +26,17 @@ export class AccountService {
         })
       );
   }
+  loginAsTodd() {
+    return this.http.post<User>(this.baseUrl + 'account/loginAsTodd', {})
+      .pipe(
+        map((response: User) => {
+          const user = response;
+          if (user) {
+            this.setCurrentUser(user);
+          }
+        })
+      );
+  }
 
   register(model: any) {
     return this.http.post<User>(this.baseUrl + "account/register", model)
